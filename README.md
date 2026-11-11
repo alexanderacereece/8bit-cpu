@@ -18,17 +18,25 @@ J-type │ opcode │ condition  │     address[7:0]     │
 ```
 ### Register-Type
 RD: Destination register
+
 RS1: First operand
+
 RS2: Second operand
+
 Function: Type of operation to perform
+
 W: If W == 1, write to RD, else only update flags (CMP)
+
 ---: Reserved bits
 ### Immediate-Type
 RD: Destination register
+
 ---: Reserved bits
+
 Immediate: 8-bit value for direct register assignment; 8-bit RAM address for loading and storing to and from RD
 ### Jump-Type
 Condition: 4-bit code for jump conditions
+
 Address: 8-bit address to jump to in ROM
 ## Instruction Set
 
