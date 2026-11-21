@@ -1,15 +1,19 @@
+`timescale 1ns/1ps
 module ALU (
-    input [7:0] a, b,
-    input [2:0] alu_op,
-    input cin,
-    output [7:0] result,
-    output negative, zero, carry,
-    output reg overflow); // Overflow is a reg because its assignment varies per alu_op.
+    input  logic [7:0] a, b,
+    input  logic [2:0] alu_op,
+    input  logic cin,
+    output logic [7:0] result,
+    output logic negative, zero, carry,
+    output logic overflow); // Overflow is assigned per alu_op in always_comb.
 
-    reg [8:0] full_result;
+    logic [8:0] full_result;
 
-    always @(*) begin
+    always_comb begin
+        // Default assignements.
+        full_result = 9'd0;
         overflow = 1'b0;
+        // Individual operations.
         case (alu_op)
             3'b000: begin
                 full_result = {1'b0, a} + {1'b0, b};
