@@ -23,6 +23,18 @@ module ALU (
                 full_result = {1'b0, a} + {1'b0, ~b} + 1'b1;
                 overflow = (~a[7] & b[7] & full_result[7]) | (a[7] & ~b[7] & ~full_result[7]);
             end
+            3'b010: begin
+                full_result = {1'b0, a} & {1'b0, b};
+                overflow = (~a[7] & b[7] & full_result[7]) | (a[7] & ~b[7] & ~full_result[7]);
+            end
+            3'b011: begin
+                full_result = {1'b0, a} | {1'b0, b};
+                overflow = (~a[7] & b[7] & full_result[7]) | (a[7] & ~b[7] & ~full_result[7]);
+            end
+            3'b100: begin
+                full_result = {1'b0, a} + {1'b0, b} + cin;
+                overflow = (~a[7] & ~b[7] & full_result[7]) | (a[7] & b[7] & ~full_result[7]);
+            end
             default: full_result = 9'd0;
         endcase
     end

@@ -70,3 +70,10 @@ Address: 8-bit address to jump to in ROM
 - [ ] Python assembler
 - [ ] Example programs
 - [ ] C++ emulator
+## Showcase
+### GTKWave showing ALU addition and subtraction operations:
+![GTKWave addition and subtraction test](images/ALU_addition_and_subtraction.png)
+
+Each 1 ns segment is a different check performed by the ALU testbench.
+- The 5-6 ns range shows ALU operation 000, addition, on -128 and -128, resulting in 0 and the zero, carry, and overflow flags being raised. The zero flag is raised because the result wraps around to 0. The carry flag is raised because the unsigned result is 256, or 9'b100000000. The overflow flag is raised because the signed range -128 to 127 was exceeded.
+- The 6-7 ns range shows ALU operation 001, subtraction, on 5 and 7, resulting in -2 and the negative flag being raised.
