@@ -1,5 +1,5 @@
 # 8-bit CPU
-This will be an 8-bit, Harvard-architecture CPU with a custom instruction set designed from scratch and implemented in Verilog.
+This will be an 8-bit, Harvard-architecture CPU with a custom instruction set designed from scratch and implemented in SystemVerilog.
 ## Architecture
 - Four registers (R0, R1, R2, R3)
 - Harvard-architecture: 256 x 16 instruction ROM, 256 x 8 data RAM
