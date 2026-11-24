@@ -49,6 +49,7 @@ Address: 8-bit address to jump to in ROM
 | 0001   | 010      | -         | 1   | AND      | RD = RS1 & RS2           | yes       | -                 |
 | 0001   | 011      | -         | 1   | OR       | RD = RS1 \| RS2          | yes       | -                 |
 | 0001   | 100      | -         | 1   | ADC      | RD = RS1 + RS2 + C       | yes       | C                 |
+| 0001   | 101      | -         | 1   | XOR      | RD = RS1 ^ RS2           | yes       | -                 |
 | 0010   | -        | -         | -   | SET      | RD = immediate           | no        | -                 |
 | 0011   | -        | -         | -   | LD       | RD = RAM[immediate]      | no        | -                 |
 | 0100   | -        | -         | -   | ST       | RAM[immediate] = RD      | no        | -                 |
@@ -60,9 +61,10 @@ Address: 8-bit address to jump to in ROM
 
 - Any ALU instruction can set W = 0 to only affect flags.
 - After SUB/CMP, C == 1 means no borrow (RS1 >= RS2, unsigned)
+- Reserved ALU functions result in 0.
 ## Progress
 - [x] ISA specification
-- [ ] ALU
+- [x] ALU
 - [ ] Register file
 - [ ] ROM
 - [ ] RAM
@@ -77,3 +79,5 @@ Address: 8-bit address to jump to in ROM
 Each 1 ns segment is a different check performed by the ALU testbench.
 - The 5-6 ns range shows ALU operation 000, addition, on -128 and -128, resulting in 0 and the zero, carry, and overflow flags being raised. The zero flag is raised because the result wraps around to 0. The carry flag is raised because the unsigned result is 256, or 9'b100000000. The overflow flag is raised because the signed range -128 to 127 was exceeded.
 - The 6-7 ns range shows ALU operation 001, subtraction, on 5 and 7, resulting in -2 and the negative flag being raised.
+### GTKWave showing the full ALU testbench:
+![GTKWave full ALU testbench](images/ALU_full_tb.png)

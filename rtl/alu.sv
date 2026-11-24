@@ -1,5 +1,5 @@
 `timescale 1ns/1ps
-module ALU (
+module alu (
     input  logic [7:0] a, b,
     input  logic [2:0] alu_op,
     input  logic cin,
@@ -10,7 +10,7 @@ module ALU (
     logic [8:0] full_result;
 
     always_comb begin
-        // Default assignements.
+        // Default assignments.
         full_result = 9'd0;
         overflow = 1'b0;
         // Individual operations.
@@ -25,17 +25,24 @@ module ALU (
             end
             3'b010: begin
                 full_result = {1'b0, a} & {1'b0, b};
-                overflow = (~a[7] & b[7] & full_result[7]) | (a[7] & ~b[7] & ~full_result[7]);
+                overflow = 1'b0;
             end
             3'b011: begin
                 full_result = {1'b0, a} | {1'b0, b};
-                overflow = (~a[7] & b[7] & full_result[7]) | (a[7] & ~b[7] & ~full_result[7]);
+                overflow = 1'b0;
             end
             3'b100: begin
                 full_result = {1'b0, a} + {1'b0, b} + cin;
                 overflow = (~a[7] & ~b[7] & full_result[7]) | (a[7] & b[7] & ~full_result[7]);
             end
-            default: full_result = 9'd0;
+            3'b101: begin
+                full_result = {1'b0, a} ^ {1'b0, b};
+                overflow = 1'b0;
+            end
+            default: begin
+                full_result = 9'd0;
+                overflow = 1'b0;
+            end
         endcase
     end
 
