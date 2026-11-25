@@ -1,6 +1,5 @@
 `timescale 1ns/1ps
 module alu_tb;
-
     logic [7:0] a, b;
     logic [2:0] alu_op;
     logic cin;
