@@ -7,9 +7,11 @@ module register_file (
 
     logic [7:0] regs [3:0];
 
+    // Output the requested reg data.
     assign a = regs[a_address];
     assign b = regs[b_address];
 
+    // Write to a reg with the clock.
     always_ff @(posedge clk) begin
         if (we)
             regs[w_address] <= w_data;
