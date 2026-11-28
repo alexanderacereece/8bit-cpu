@@ -21,6 +21,7 @@ module register_file_tb;
         .b(b)
     );
 
+    // Write data to a reg.
     task write (
         input [1:0] t_address,
         input [7:0] t_data
@@ -35,6 +36,21 @@ module register_file_tb;
         end
     endtask
 
+    // Input data but do not write to the reg.
+    task dont_write (
+        input [1:0] t_address,
+        input [7:0] t_data
+    );
+        begin
+            w_address = t_address;
+            w_data = t_data;
+            we = 0;
+            @(posedge clk);
+            #1;
+        end
+    endtask
+
+    // Test for correct data in reg.
     task read_check (
         input [1:0] t_a_address, t_b_address,
         input [7:0] exp_a, exp_b
@@ -49,6 +65,27 @@ module register_file_tb;
             else
                 $display("PASS: a_address=%b b_address=%b -> a=%0d b=%0d",
                 a_address, b_address, a, b);
+        end
+    endtask
+
+    // Test write timing.
+    task timing_check (
+        input [1:0] t_address,
+        input [7:0] t_old_data, t_new_data
+    );
+        begin
+            w_address = t_address;
+            w_data = t_new_data;
+            // Enable write right after a positive edge and make sure the data is untouched.
+            @(posedge clk);
+            #1;
+            we = 1;
+            read_check(t_address, t_address, t_old_data, t_old_data);
+            // Then make sure the data is written after the next positive edge.
+            @(posedge clk);
+            #1;
+            read_check(t_address, t_address, t_new_data, t_new_data);
+            we = 0;
         end
     endtask
 
@@ -79,6 +116,19 @@ module register_file_tb;
         read_check(2'b00, 2'b00, 0, 0);
         read_check(2'b11, 2'b11, 15, 15);
         read_check(2'b10, 2'b01, 7, 2);
+
+        // Make sure regs aren't changed without we = 1.
+        dont_write(2'b10, 99);
+        dont_write(2'b00, 99);
+        dont_write(2'b11, 99);
+        read_check(2'b10, 2'b10, 7, 7);
+        read_check(2'b00, 2'b11, 0, 15);
+
+        // Make sure writes only happen on positive edges.
+        write(2'b00, 2);
+        write(2'b01, 3);
+        timing_check(2'b00, 2, 10);
+        timing_check(2'b01, 3, -5);
 
         $finish;
     end

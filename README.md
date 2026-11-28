@@ -65,7 +65,7 @@ Address: 8-bit address to jump to in ROM
 ## Progress
 - [x] ISA specification
 - [x] ALU
-- [ ] Register file
+- [x] Register file
 - [ ] ROM
 - [ ] RAM
 - [ ] Control unit
@@ -81,3 +81,7 @@ Each 1 ns segment is a different check performed by the ALU testbench.
 - The 6-7 ns range shows ALU operation 001, subtraction, on 5 and 7, resulting in -2 and the negative flag being raised.
 ### GTKWave showing the full ALU testbench:
 ![GTKWave full ALU testbench](images/ALU_full_tb.png)
+### GTKWave showing the register file testbench:
+![GTKWave register file testbench](images/register_file_tb.png)
+
+The cursor is right in the middle of an asynchronous read, in which the module outputs the requested a and b values from the registers specified by a_address and b_address. In this example, register 3 is being request for both a and b. Reads are asynchronous because they are not tied to the clock, and instead output their contents as soon as possible. The bottom four values are the individual registers. A register only changes when we (write enable) is high, the clock changes from low to high (a positive edge), and the register's address is inputted to w_address.
